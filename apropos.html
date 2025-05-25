@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>À propos - Conversa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* CSS from index.html (and previously contact.html, fonctionnalites.html) */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #1e90ff;
+            --primary-dark: #1c86ee;
+            --secondary-color: #f8f9fa;
+            --text-dark: #2d3748;
+            --text-light: #718096;
+            --white: #ffffff;
+            --gray-light: #f7fafc;
+            --gray-medium: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--white);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: var(--white);
+            box-shadow: var(--shadow);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .nav-logo i {
+            font-size: 28px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary-color);
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary-color);
+        }
+
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .bar {
+            width: 25px;
+            height: 3px;
+            background: var(--text-dark);
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Hero Section (General styles for sections) */
+        .hero {
+            padding: 120px 0 80px;
+            background: linear-gradient(135deg, var(--gray-light) 0%, var(--white) 100%);
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            max-width: 800px;
+            margin: 0 auto 30px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--text-dark);
+            border: 2px solid var(--gray-medium);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-large {
+            padding: 16px 32px;
+            font-size: 1.1rem;
+        }
+
+        /* Sections structure (Mission, Vision, Values, Team) */
+        .about-section {
+            padding: 80px 0;
+            background-color: var(--white);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .content-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 60px;
+            padding: 0 20px;
+        }
+
+        .content-block img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .content-block h3 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+        }
+
+        .content-block p {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Mission, Vision, Values specific styles */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .card {
+            background: var(--gray-light);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card i {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .card h4 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--text-dark);
+        }
+
+        .card p {
+            color: var(--text-light);
+        }
+
+        /* Team section */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .team-member {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .team-member img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 3px solid var(--primary-color);
+        }
+
+        .team-member h5 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 5px;
+        }
+
+        .team-member p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        /* Call to Action (CTA) Section */
+        .cta-section {
+            background: var(--primary-color);
+            color: var(--white);
+            padding: 80px 0;
+            text-align: center;
+            border-radius: 16px;
+            margin: 80px auto;
+            max-width: 1000px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .cta-section .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            max-width: 700px;
+            opacity: 0.9;
+        }
+
+        .cta-section .btn {
+            background: var(--white);
+            color: var(--primary-color);
+        }
+
+        .cta-section .btn:hover {
+            background: var(--gray-light);
+            color: var(--primary-dark);
+        }
+
+
+        /* Footer */
+        .footer {
+            background: var(--text-dark);
+            color: var(--white);
+            padding: 50px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--primary-color);
+        }
+
+        .footer-logo i {
+            font-size: 28px;
+            color: var(--primary-color);
+        }
+
+        .footer-section p {
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
+
+        .footer-section h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--white);
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 8px;
+        }
+
+        .footer-section ul li a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            color: var(--primary-color);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 12px;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            text-align: center;
+            opacity: 0.8;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background-color: var(--white);
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: var(--shadow);
+                padding: 20px 0;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-menu li {
+                margin: 15px 0;
+            }
+
+            .nav-toggle {
+                display: flex;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-section {
+                margin: 40px 20px;
+                padding: 60px 0;
+            }
+
+            .cta-section h2 {
+                font-size: 2rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .footer-logo, .footer-section h4 {
+                justify-content: center;
+            }
+            .social-links {
+                justify-content: center;
+            }
+
+            .content-block {
+                margin-bottom: 40px;
+            }
+
+            .cards-grid, .team-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-comments"></i>
+                <span>Conversa</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Accueil</a></li>
+                <li><a href="fonctionnalites.html" class="nav-link">Fonctionnalités</a></li>
+                <li><a href="apropos.html" class="nav-link active">À propos</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="nav-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Qui sommes-nous ?</h1>
+            <p>Chez Conversa, nous sommes passionnés par la révolution de la communication client grâce à l'intelligence artificielle.</p>
+            <div class="hero-buttons">
+                <a href="fonctionnalites.html" class="btn btn-primary btn-large">
+                    Découvrir nos fonctionnalités <i class="fas fa-cogs"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="about-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Notre Histoire</h2>
+                <p>Depuis notre création, nous nous efforçons de bâtir des solutions IA conversationnelles intuitives et performantes.</p>
+            </div>
+            <div class="content-block">
+                <p>Conversa a été fondée en 2023 par une équipe d'experts en IA et en expérience client, avec la vision de combler le fossé entre les entreprises et leurs clients. Nous avons constaté le besoin croissant d'interactions instantanées et personnalisées, et avons décidé de créer une plateforme de chatbot IA qui non seulement répond aux attentes, mais les dépasse.</p>
+                <p>Nous croyons que l'automatisation peut être humaine, intelligente et efficace. C'est pourquoi nous investissons continuellement dans la recherche et le développement pour que nos solutions restent à la pointe de l'innovation.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="about-section" style="background-color: var(--gray-light);">
+        <div class="container">
+            <div class="section-header">
+                <h2>Notre Mission, Vision & Valeurs</h2>
+                <p>Ce qui nous guide au quotidien.</p>
+            </div>
+            <div class="cards-grid">
+                <div class="card">
+                    <i class="fas fa-bullseye"></i>
+                    <h4>Notre Mission</h4>
+                    <p>Faciliter et automatiser la communication entre les entreprises et leurs clients, en offrant des expériences fluides et personnalisées 24h/24 et 7j/7.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-eye"></i>
+                    <h4>Notre Vision</h4>
+                    <p>Devenir le leader mondial des solutions d'IA conversationnelle, permettant à chaque entreprise de bâtir des relations durables avec sa clientèle.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-gem"></i>
+                    <h4>Nos Valeurs</h4>
+                    <ul>
+                        <li>Innovation & Excellence</li>
+                        <li>Orientation Client</li>
+                        <li>Intégrité & Transparence</li>
+                        <li>Collaboration & Respect</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Notre Équipe</h2>
+                <p>Rencontrez les esprits derrière Conversa, dédiés à votre succès.</p>
+            </div>
+            <div class="team-grid">
+                <div class="team-member">
+                    <img src="https://via.placeholder.com/120/1e90ff/ffffff?text=JD" alt="Membre de l'équipe">
+                    <h5>Jean Dupont</h5>
+                    <p>CEO & Co-fondateur</p>
+                </div>
+                <div class="team-member">
+                    <img src="https://via.placeholder.com/120/1e90ff/ffffff?text=MS" alt="Membre de l'équipe">
+                    <h5>Marie Simon</h5>
+                    <p>CTO & Co-fondatrice</p>
+                </div>
+                <div class="team-member">
+                    <img src="https://via.placeholder.com/120/1e90ff/ffffff?text=AS" alt="Membre de l'équipe">
+                    <h5>Antoine Smith</h5>
+                    <p>Responsable Produit</p>
+                </div>
+                <div class="team-member">
+                    <img src="https://via.placeholder.com/120/1e90ff/ffffff?text=LG" alt="Membre de l'équipe">
+                    <h5>Léa Girard</h5>
+                    <p>Responsable Marketing</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2>Vous avez un projet de chatbot ?</h2>
+            <p>Discutons de la manière dont Conversa peut transformer votre service client et votre engagement.</p>
+            <a href="contact.html" class="btn btn-large">
+                Nous Contacter <i class="fas fa-envelope"></i>
+            </a>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-comments"></i>
+                        <span>Conversa</span>
+                    </div>
+                    <p>Chatbots IA pour automatiser votre communication client.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Solutions</h4>
+                    <ul>
+                        <li><a href="fonctionnalites.html">Chatbot Site Web</a></li>
+                        <li><a href="fonctionnalites.html">Chatbot WhatsApp</a></li>
+                        <li><a href="#">Intégrations</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Entreprise</h4>
+                    <ul>
+                        <li><a href="apropos.html">À propos</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> contact@conversa.ai</li>
+                        <li><i class="fab fa-whatsapp"></i> WhatsApp Business</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Conversa. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Navigation Toggle
+        const navToggle = document.querySelector('.nav-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+
+        if (navToggle && navMenu) {
+            navToggle.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+            });
+
+            // Close mobile menu when clicking on a link
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenu.classList.remove('active');
+                });
+            });
+        }
+
+        // Smooth scrolling for anchor links (if any on this page)
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add scroll effect to navbar
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (navbar) {
+                if (window.scrollY > 100) {
+                    navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+                    navbar.style.backdropFilter = 'blur(10px)';
+                } else {
+                    navbar.style.background = 'var(--white)';
+                    navbar.style.backdropFilter = 'none';
+                }
+            }
+        });
+
+        // Animation on scroll for feature cards and service cards (applied to any .card for general purpose)
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.feature-card, .service-card, .card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>

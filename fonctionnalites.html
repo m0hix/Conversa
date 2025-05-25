@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fonctionnalités - Conversa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* CSS re-aligné avec le design initial (index.html, contact.html, apropos.html) */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #1e90ff;
+            --primary-dark: #1c86ee;
+            --secondary-color: #f8f9fa;
+            --text-dark: #2d3748;
+            --text-light: #718096;
+            --white: #ffffff;
+            --gray-light: #f7fafc;
+            --gray-medium: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--white);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: var(--white);
+            box-shadow: var(--shadow);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .nav-logo i {
+            font-size: 28px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary-color);
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary-color);
+        }
+
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .bar {
+            width: 25px;
+            height: 3px;
+            background: var(--text-dark);
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 120px 0 80px;
+            background: linear-gradient(135deg, var(--gray-light) 0%, var(--white) 100%);
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem; /* Revert to initial size */
+            font-weight: 700;
+            color: var(--text-dark); /* Revert to initial color */
+            margin-bottom: 20px;
+        }
+        .hero h1 span {
+            color: var(--primary-color); /* Revert to initial color, if any */
+        }
+
+        .hero p {
+            font-size: 1.2rem; /* Revert to initial size */
+            color: var(--text-light); /* Revert to initial color */
+            max-width: 800px;
+            margin: 0 auto 30px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--text-dark);
+            border: 2px solid var(--gray-medium);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-large {
+            padding: 16px 32px; /* Revert to initial size */
+            font-size: 1.1rem; /* Revert to initial size */
+        }
+
+        /* Sections structure */
+        .section {
+            padding: 80px 0;
+            background-color: var(--white);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem; /* Revert to initial size */
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--text-dark);
+        }
+
+        .section-header p {
+            font-size: 1.1rem; /* Revert to initial size */
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .features-grid, .comparison-grid, .use-cases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .feature-card, .comparison-card, .use-case-card {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            opacity: 0; /* Initial state for JS animation */
+            transform: translateY(30px); /* Initial state for JS animation */
+            transition: opacity 0.6s ease, transform 0.6s ease; /* Transition for JS animation */
+        }
+
+        .feature-card:hover, .comparison-card:hover, .use-case-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .feature-card i, .comparison-card i, .use-case-card i {
+            font-size: 3rem; /* Revert to initial size */
+            color: var(--primary-color);
+            margin-bottom: 20px; /* Revert to initial size */
+        }
+
+        .feature-card h3, .comparison-card h3, .use-case-card h4 {
+            font-size: 1.5rem; /* Revert to initial size */
+            font-weight: 600; /* Revert to initial weight */
+            margin-bottom: 15px;
+            color: var(--text-dark);
+        }
+
+        .feature-card p, .comparison-card p, .use-case-card p {
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+
+        /* Comparison specific styles (reverted) */
+        .comparison-card {
+            background-color: var(--white); /* Revert to white */
+            box-shadow: var(--shadow); /* Revert to default shadow */
+        }
+
+        .comparison-card ul {
+            list-style: none;
+            text-align: left;
+            margin-top: 20px;
+            padding-left: 0;
+        }
+
+        .comparison-card ul li {
+            margin-bottom: 10px; /* Revert to initial spacing */
+            color: var(--text-dark);
+            display: flex;
+            align-items: flex-start;
+            font-size: 1rem;
+        }
+
+        .comparison-card ul li i {
+            font-size: 1.2rem; /* Revert to initial size */
+            margin-right: 10px;
+            color: var(--primary-color);
+            margin-top: 3px;
+        }
+
+        /* Use Cases Section */
+        .use-case-card {
+            background: var(--gray-light); /* Revert to initial background */
+            padding: 25px; /* Revert to initial padding */
+            box-shadow: var(--shadow);
+        }
+
+        /* Call to Action (CTA) Section */
+        .cta-section {
+            background: var(--primary-color);
+            color: var(--white);
+            padding: 80px 0; /* Revert to initial padding */
+            text-align: center;
+            border-radius: 16px;
+            margin: 80px auto;
+            max-width: 1000px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .cta-section .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem; /* Revert to initial size */
+            font-weight: 700;
+            margin-bottom: 20px; /* Revert to initial spacing */
+        }
+
+        .cta-section p {
+            font-size: 1.2rem; /* Revert to initial size */
+            margin-bottom: 40px; /* Revert to initial spacing */
+            max-width: 700px;
+            opacity: 0.9;
+        }
+
+        .cta-section .btn {
+            background: var(--white);
+            color: var(--primary-color);
+            padding: 16px 32px; /* Revert to initial size */
+            font-size: 1.1rem; /* Revert to initial size */
+            font-weight: 500;
+        }
+
+        .cta-section .btn:hover {
+            background: var(--gray-light);
+            color: var(--primary-dark);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--text-dark);
+            color: var(--white);
+            padding: 50px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--primary-color);
+        }
+
+        .footer-logo i {
+            font-size: 28px;
+            color: var(--primary-color);
+        }
+
+        .footer-section p {
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
+
+        .footer-section h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--white);
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 8px;
+        }
+
+        .footer-section ul li a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            color: var(--primary-color);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 12px;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            text-align: center;
+            opacity: 0.8;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background-color: var(--white);
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: var(--shadow);
+                padding: 20px 0;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-menu li {
+                margin: 15px 0;
+            }
+
+            .nav-toggle {
+                display: flex;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+            .section-header p {
+                font-size: 1rem;
+            }
+
+            .features-grid, .comparison-grid, .use-cases-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-card i, .comparison-card i, .use-case-card i {
+                font-size: 3rem;
+            }
+            .feature-card h3, .comparison-card h3, .use-case-card h4 {
+                font-size: 1.6rem;
+            }
+
+            .cta-section {
+                margin: 40px 20px;
+                padding: 60px 0;
+            }
+
+            .cta-section h2 {
+                font-size: 2.4rem;
+            }
+            .cta-section p {
+                font-size: 1.1rem;
+            }
+            .cta-section .btn {
+                padding: 16px 30px;
+                font-size: 1.1rem;
+            }
+
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .footer-logo, .footer-section h4 {
+                justify-content: center;
+            }
+            .social-links {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+                max-width: 300px;
+            }
+            .section-header h2 {
+                font-size: 1.8rem;
+            }
+            .feature-card h3, .comparison-card h3, .use-case-card h4 {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-comments"></i>
+                <span>Conversa</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Accueil</a></li>
+                <li><a href="fonctionnalites.html" class="nav-link active">Fonctionnalités</a></li>
+                <li><a href="apropos.html" class="nav-link">À propos</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="nav-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Libérez le potentiel de l'IA conversationnelle</h1>
+            <p>Découvrez les fonctionnalités puissantes de Conversa qui transforment la communication client et l'efficacité de votre entreprise.</p>
+            <div class="hero-buttons">
+                <a href="contact.html" class="btn btn-primary btn-large">
+                    Demander une démo <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Nos Solutions par Plateforme : Là où vos clients vous attendent</h2>
+                <p>Conversa s'intègre sur les canaux de communication clés pour maximiser votre portée et votre engagement.</p>
+            </div>
+            <div class="comparison-grid">
+                <div class="comparison-card">
+                    <i class="fas fa-globe"></i>
+                    <h3>Chatbot Web</h3>
+                    <p>Intégrez un chatbot directement sur votre site web pour assister les visiteurs 24/7 et collecter des leads.</p>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> Disponibilité constante sur votre site</li>
+                        <li><i class="fas fa-check-circle"></i> Augmentation de la conversion des visiteurs</li>
+                        <li><i class="fas fa-check-circle"></i> Collecte de leads qualifiés</li>
+                        <li><i class="fas fa-check-circle"></i> Support immédiat pour les FAQs</li>
+                        <li><i class="fas fa-check-circle"></i> Personnalisation du widget visuel</li>
+                    </ul>
+                </div>
+                <div class="comparison-card">
+                    <i class="fab fa-whatsapp"></i>
+                    <h3>Chatbot WhatsApp</h3>
+                    <p>Automatisez les interactions sur la plateforme de messagerie la plus utilisée pour un engagement direct.</p>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> Portée massive et engagement direct</li>
+                        <li><i class="fas fa-check-circle"></i> Notifications proactives et marketing</li>
+                        <li><i class="fas fa-check-circle"></i> Support client via le canal préféré</li>
+                        <li><i class="fas fa-check-circle"></i> Gestion des commandes et des réservations</li>
+                        <li><i class="fas fa-check-circle"></i> Interactions riches (médias, boutons)</li>
+                    </ul>
+                </div>
+                <div class="comparison-card">
+                    <i class="fab fa-telegram-plane"></i>
+                    <h3>Chatbot Telegram</h3>
+                    <p>Créez des expériences interactives et automatisées, idéales pour les communautés et contenus riches.</p>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> Idéal pour les communautés et les groupes</li>
+                        <li><i class="fas fa-check-circle"></i> Envoi de contenus riches et médias</li>
+                        <li><i class="fas fa-check-circle"></i> Automatisation des tâches et des requêtes</li>
+                        <li><i class="fas fa-check-circle"></i> Intégration facile avec vos systèmes</li>
+                        <li><i class="fas fa-check-circle"></i> Flexibilité pour des usages avancés</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="background-color: var(--gray-light);">
+        <div class="container">
+            <div class="section-header">
+                <h2>Fonctionnalités Clés de Conversa</h2>
+                <p>Nos chatbots sont conçus avec une intelligence artificielle de pointe pour une expérience utilisateur inégalée et une automatisation robuste.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-robot"></i>
+                    <h3>Réponses Instantanées 24/7</h3>
+                    <p>Vos clients obtiennent des réponses immédiates à toute heure, augmentant la satisfaction et l'engagement.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-brain"></i>
+                    <h3>Compréhension Contextuelle</h3>
+                    <p>L'IA de Conversa comprend les intentions des utilisateurs, même les plus complexes, pour des interactions fluides.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-language"></i>
+                    <h3>Multilingue et Personnalisable</h3>
+                    <p>Communiquez dans plusieurs langues avec des réponses adaptées à l'image de marque de votre entreprise.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Analyses et Rapports Détaillés</h3>
+                    <p>Suivez les performances de votre chatbot et identifiez les opportunités d'amélioration grâce à nos outils analytiques.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-cogs"></i>
+                    <h3>Intégrations Faciles</h3>
+                    <p>Connectez Conversa à vos outils CRM, plateformes de support et systèmes existants en toute simplicité.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-handshake"></i>
+                    <h3>Transfert Humain Intelligent</h3>
+                    <p>En cas de questions complexes ou spécifiques, le chatbot transfère intelligemment la conversation à un agent humain.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Cas d'utilisation : Boostez votre secteur avec Conversa</h2>
+                <p>Découvrez comment nos chatbots peuvent s'adapter à votre activité et générer une valeur ajoutée significative.</p>
+            </div>
+            <div class="use-cases-grid">
+                <div class="use-case-card">
+                    <i class="fas fa-headset"></i>
+                    <h4>Service Client</h4>
+                    <p>Réduisez le temps d'attente, répondez aux questions fréquentes et améliorez la satisfaction client.</p>
+                </div>
+                <div class="use-case-card">
+                    <i class="fas fa-shopping-cart"></i>
+                    <h4>E-commerce</h4>
+                    <p>Guide d'achat personnalisé, suivi de commande, support après-vente, et promotions ciblées.</p>
+                </div>
+                <div class="use-case-card">
+                    <i class="fas fa-lightbulb"></i>
+                    <h4>Génération de Leads</h4>
+                    <p>Qualifiez les prospects, collectez des informations clés et dirigez-les vers votre équipe commerciale.</p>
+                </div>
+                <div class="use-case-card">
+                    <i class="fas fa-calendar-alt"></i>
+                    <h4>Prise de Rendez-vous</h4>
+                    <p>Automatisez la planification de rendez-vous et les rappels pour vos clients et optimisez votre agenda.</p>
+                </div>
+                <div class="use-case-card">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h4>Éducation & Formation</h4>
+                    <p>Support pour les étudiants, FAQ académiques, informations sur les cours et l'inscription.</p>
+                </div>
+                <div class="use-case-card">
+                    <i class="fas fa-notes-medical"></i>
+                    <h4>Santé & Bien-être</h4>
+                    <p>Informations sur les services, prise de rendez-vous médicaux, réponses aux questions générales.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2>Prêt à transformer votre communication client ?</h2>
+            <p>Rejoignez les entreprises qui font confiance à Conversa pour une automatisation intelligente et un service client de pointe.</p>
+            <a href="contact.html" class="btn btn-large">
+                Commencer maintenant <i class="fas fa-chevron-right"></i>
+            </a>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-comments"></i>
+                        <span>Conversa</span>
+                    </div>
+                    <p>Chatbots IA pour automatiser votre communication client.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Solutions</h4>
+                    <ul>
+                        <li><a href="fonctionnalites.html">Chatbot Site Web</a></li>
+                        <li><a href="fonctionnalites.html">Chatbot WhatsApp</a></li>
+                        <li><a href="#">Intégrations</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Entreprise</h4>
+                    <ul>
+                        <li><a href="apropos.html">À propos</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> contact@conversa.ai</li>
+                        <li><i class="fab fa-whatsapp"></i> WhatsApp Business</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Conversa. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Navigation Toggle
+        const navToggle = document.querySelector('.nav-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+
+        if (navToggle && navMenu) {
+            navToggle.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+            });
+
+            // Close mobile menu when clicking on a link
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenu.classList.remove('active');
+                });
+            });
+        }
+
+        // Smooth scrolling for anchor links (if any on this page)
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add scroll effect to navbar
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (navbar) {
+                if (window.scrollY > 100) {
+                    navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+                    navbar.style.backdropFilter = 'blur(10px)';
+                } else {
+                    navbar.style.background = 'var(--white)';
+                    navbar.style.backdropFilter = 'none';
+                }
+            }
+        });
+
+        // Animation on scroll for cards (feature-card, comparison-card, use-case-card)
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.feature-card, .comparison-card, .use-case-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
